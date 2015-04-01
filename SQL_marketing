@@ -7,8 +7,20 @@ SELECT distinct LeadSource FROM sfdc_contact
 SELECT distinct original_source_c FROM sfdc_contact
 
 # Count each leads records
-SELECT original_source__c, COUNT(original_source__c) AS num_leads
+SELECT original_source__c, COUNT(original_source__c) AS count_leads
 FROM sfdc_contact
 GROUP BY original_source__c
 ORDER BY num_leads
 
+# Find the corelationship between the Contact and Opp table
+SELECT Contact.AccountID, Latest_Lead_Source__c
+FROM sfdc_contact AS Contact
+LEFT JOIN sfdc_opportunity AS Opp
+ON Contact.AccountID = Opp.AccountID
+
+# Find the relationship between, Latest_Lead_Source, Current_Lead_Source, Original_Source, LeadSource, Opp_Source_First_Touch
+SELECT Contact.AccountID, Contact.Latest_Lead_Source__c, Contact.Current_Lead_Source__c, Contact.Original_Source__c,Contact.LeadSource, Opp.Opp_Source_First_Touch__c
+FROM sfdc_contact AS Contact
+LEFT JOIN sfdc_opportunity AS Opp
+ON Contact.AccountID = Opp.AccountID
+LIMIT 50
