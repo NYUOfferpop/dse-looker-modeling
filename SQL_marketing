@@ -5,3 +5,10 @@ SELECT distinct LeadSource FROM sfdc_contact
 
 # Find LeadSources' category
 SELECT distinct original_source_c FROM sfdc_contact
+
+# Count each leads records
+SELECT original_source__c, COUNT(original_source__c) AS num_leads
+FROM sfdc_contact
+GROUP BY original_source__c
+ORDER BY num_leads
+
