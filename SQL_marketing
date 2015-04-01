@@ -1,0 +1,7 @@
+# SQL used for figuring out the relationships or marketing data variables in the Marketing Tables
+
+# Find LeadSources' category
+SELECT distinct LeadSource FROM sfdc_contact
+
+# Find LeadSources' category
+SELECT distinct original_source_c FROM sfdc_contact
