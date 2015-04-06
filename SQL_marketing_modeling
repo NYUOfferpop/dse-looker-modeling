@@ -1,0 +1,4 @@
+# calculate run rate with the days with MQL
+select count(Original_Source__c) as source_count, count(distinct Contact_Created_Date__c) as date_count, count(Original_Source__c)/count(distinct Contact_Created_Date__c) as Run_rate
+from sfdc_contact
+where Contact_Created_Date__c like '2014%'
