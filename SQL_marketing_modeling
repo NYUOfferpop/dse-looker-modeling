@@ -2,3 +2,23 @@
 select count(Original_Source__c) as source_count, count(distinct Contact_Created_Date__c) as date_count, count(Original_Source__c)/count(distinct Contact_Created_Date__c) as Run_rate
 from sfdc_contact
 where Contact_Created_Date__c like '2014%'
+
+# measures in LookML
+ - measure: run_rate
+    type: number
+    sql: count(${TABLE}.Original_Source__c)/ count(${TABLE}.Contact_Created_Date__c)
+  
+  # remains to be changed
+  - measure: run_rate_monthly_projection
+    type: number
+    sql: count(${TABLE}.Original_Source__c)/ ${TABLE}.Contact_Created_Date__c *30
+  
+  # remains to be changed
+  - measure: run_rate_quarterly_projection
+    type: number
+    sql: count(${TABLE}.Original_Source__c)/ ${TABLE}.Contact_Created_Date__c *90
+  
+  # remains to be changed
+  - measure: run_rate_yearly_projection
+    type: number
+    sql: count(${TABLE}.Original_Source__c)/ ${TABLE}.Contact_Created_Date__c *360
