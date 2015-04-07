@@ -24,7 +24,8 @@ where Contact_Created_Date__c like '2014%'
     sql: count(${TABLE}.Original_Source__c)/ ${TABLE}.Contact_Created_Date__c *360
     
     
-    
+#############################################
+https://discourse.looker.com/t/compare-custom-date-ranges-or-any-custom-tiers-enable-end-users-to-run-these-queries-at-will/474
     
 # Select the current date 
 SELECT NOW(),CURDATE(),CURTIME()
