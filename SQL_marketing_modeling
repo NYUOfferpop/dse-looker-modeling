@@ -22,3 +22,18 @@ where Contact_Created_Date__c like '2014%'
   - measure: run_rate_yearly_projection
     type: number
     sql: count(${TABLE}.Original_Source__c)/ ${TABLE}.Contact_Created_Date__c *360
+    
+    
+    
+    
+# Select the current date 
+SELECT NOW(),CURDATE(),CURTIME()
+
+# Get the date diff of selected date and now
+SELECT DATEDIFF(NOW(),'2015-03-07')
+
+# Get the date diff of selected date and now, absolute value
+SELECT ABS(DATEDIFF('2015-03-07',NOW()))
+
+# # Get the date diff between any date, absolute value
+SELECT ABS(DATEDIFF('2015-03-07', '2015-07-09'))
