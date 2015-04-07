@@ -1,0 +1,35 @@
+SELECT CAST(CONCAT(
+COALESCE(
+	sfdc_contact.Original_Creation_Date__c,''),'|GROUP|',
+COALESCE(
+	CASE WHEN ( sfdc_contact.Original_Creation_Date__c ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second))
+THEN 'Date range set as \'before\''
+ELSE 'Date range set as \'after\''
+END
+,''),'|GROUP|',
+COALESCE(
+	CASE WHEN ( sfdc_contact.Original_Creation_Date__c ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second))
+THEN SELECT ABS(DATEDIFF ((, ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second)))
+ELSE 'Date range set as \'after\''
+END
+,'')) AS CHAR) AS "_g1",
+	sfdc_contact.Original_Creation_Date__c AS `sfdc_contact.original_creation_date__c`,
+	CASE WHEN ( sfdc_contact.Original_Creation_Date__c ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second))
+THEN 'Date range set as \'before\''
+ELSE 'Date range set as \'after\''
+END
+ AS `sfdc_contact.creation_date_comparitor`,
+	CASE WHEN ( sfdc_contact.Original_Creation_Date__c ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second))
+THEN SELECT ABS(DATEDIFF ((, ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second)))
+ELSE 'Date range set as \'after\''
+END
+ AS `sfdc_contact.creation_date_diff`
+FROM sfdc_contact
+
+GROUP BY 1
+ORDER BY CASE WHEN ( sfdc_contact.Original_Creation_Date__c ) BETWEEN ('2014-02-06') AND (DATE_ADD('2015-04-07',INTERVAL -1 second))
+THEN 'Date range set as \'before\''
+ELSE 'Date range set as \'after\''
+END
+ DESC
+LIMIT 500
