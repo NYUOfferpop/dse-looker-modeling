@@ -40,3 +40,49 @@ SELECT ABS(DATEDIFF('2015-03-07',NOW()))
 
 # # Get the date diff between any date, absolute value
 SELECT ABS(DATEDIFF('2015-03-07', '2015-07-09'))
+
+https://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html
+http://sys-exit.blogspot.com/2013/06/mysql-today-tomorrow-yesterday-this.html
+
+# Find the first day of the month
+select CAST(DATE_FORMAT(NOW() ,'%Y-%m-01') as DATE);
+
+# Calculate the first day and last day of next month
+SELECT
+DATE_SUB(
+    LAST_DAY(
+        DATE_ADD(NOW(), INTERVAL 1 MONTH)
+    ), 
+    INTERVAL DAY(
+        LAST_DAY(
+            DATE_ADD(NOW(), INTERVAL 1 MONTH)
+        )
+    )-1 DAY
+) AS firstOfNextMonth,
+
+LAST_DAY(
+    DATE_ADD(NOW(), INTERVAL 1 MONTH)
+)AS lastOfNextMonth
+
+# Select the last day of the month
+SELECT LAST_DAY(NOW())
+
+# Select the # of days till the end of the month
+SELECT ABS(DATEDIFF(now(),LAST_DAY(NOW())))
+
+# FIRST DAY OF CURRENT QUARTER
+SELECT  MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL QUARTER(CURDATE()) QUARTER - INTERVAL 1 QUARTER
+
+# LAST DAY OF LAST QUARTER
+SELECT  MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL QUARTER(CURDATE()) QUARTER - INTERVAL 1 QUARTER - INTERVAL 1 DAY
+ 
+# LAST DAY OF CURRENT QUARTER
+SELECT  MAKEDATE(YEAR(CURDATE()), 1) + INTERVAL QUARTER(CURDATE()) QUARTER - INTERVAL 1 DAY
+
+# FIND THE DAYS LEFT FOR THE CURRENT MONTH, QUARTER AND YEAR
+SELECT ABS(DATEDIFF(LAST_DAY(NOW()),NOW())) AS DAYS_LEFT_CUR_MONTH, 
+ DATEDIFF(MAKEDATE(YEAR(NOW()),1) + INTERVAL QUARTER(NOW()) QUARTER - INTERVAL 1 DAY, NOW()) DATE_LEFT_CUR_QUARTER,
+ DATEDIFF(MAKEDATE(YEAR(NOW()),365), NOW()) AS DAYS_LEFT_CUR_YEAR
+
+ 
+ 
