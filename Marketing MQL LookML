@@ -1,0 +1,50 @@
+  - measure: day_count
+    type: count_distinct
+    sql: ${TABLE}.Contact_Created_Date__c
+  # distinct ${TABLE}.Contact_Created_Date__c
+  
+  - measure: cur_month_record
+    type: number
+    sql: |
+      (
+      SELECT COUNT(${TABLE}.Original_Source__c)
+      FROM sfdc_contact
+      WHERE ${TABLE}.Contact_Created_Date__c between LAST_DAY(NOW())-INTERVAL 1 MONTH and LAST_DAY(NOW()) 
+      )
+  
+  - measure: cur_quarter_record
+    type: number
+    sql: |
+      (
+      SELECT 
+        COUNT(${TABLE}.Original_Source__c)
+      FROM 
+        ${TABLE}
+      WHERE ${TABLE}.Contact_Created_Date__c between  MAKEDATE(YEAR(NOW()),1) + INTERVAL QUARTER(NOW()) QUARTER - INTERVAL 1 QUARTER and MAKEDATE(YEAR(NOW()),1) + INTERVAL QUARTER(NOW()) QUARTER - INTERVAL 1 DAY 
+      )
+      
+  - measure: cur_year_record
+    type: number
+    sql: |
+      (
+      SELECT COUNT(${TABLE}.Original_Source__c)
+      FROM sfdc_contact
+      WHERE ${TABLE}.Contact_Created_Date__c between MAKEDATE(YEAR(NOW()),1) and MAKEDATE(YEAR(NOW())+1,1)
+      )
+    
+  - measure: run_rate
+    type: number
+    sql: count(${TABLE}.Original_Source__c)/ count(distinct ${TABLE}.Contact_Created_Date__c)
+    
+  - measure: run_rate_monthly_projection
+    type: number
+    sql: ${cur_month_record} + ${run_rate} * DATEDIFF(LAST_DAY(NOW()),NOW())
+    
+  - measure: run_rate_quarterly_projection
+    type: number
+    sql: ${cur_quarter_record} + ${run_rate} * DATEDIFF(MAKEDATE(YEAR(NOW()),1) + INTERVAL QUARTER(NOW()) QUARTER - INTERVAL 1 DAY, NOW())
+ 
+  - measure: run_rate_yearly_projection
+    type: number
+    sql: ${cur_year_record} + ${run_rate} * DATEDIFF(MAKEDATE(YEAR(NOW()),365), NOW())
+    
