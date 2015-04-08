@@ -1,0 +1,5 @@
+# pass value of measure to measure  
+  - measure: total_margin
+      type: number
+      decimals: 1
+      sql: ${total_profit} / ${total_revenue}
